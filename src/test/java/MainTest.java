@@ -37,31 +37,36 @@ class MainTest {
         assertThat(system.getBroker()).isInstanceOf(NemoStockBroker.class);
     }
 
+    @Test
+    void loginPASSKiwerStock() {
+        BrokerageAPIFactory factory = spy(new KiwerAPIFactory());
+        StockBroker mockBroker = mock(StockBroker.class);
 
+        doReturn(LOGIN_SUCCESS).when(mockBroker).getLoginInfo();
+        doReturn(mockBroker).when(factory).createBrokerageAPI();
 
+        system = new AutoTradingSystem(factory.createBrokerageAPI());
 
-//    @Test
-//    void selectStockBrokerKiwer() {
-//        AutoTradingSystem system = new AutoTradingSystem();
-//        StockBroker broker = new KiwerStockBroker();
-//        system.selectBroker(broker);
-//
-//        assertThat(broker).isInstanceOf(KiwerStock.class);
-//    }
-//
+        system.login(ID, PASSWORD);
 
-//
-//
-//    @Test
-//    void loginKiwerStock() {
-//        AutoTradingSystem system = new AutoTradingSystem();
-//        StockBroker broker = new StockBroker(Kiwer);
-//        system.selectBroker(broker);
-//
-//        system.login();
-//
-//        assertThat(system.getLoginInfo()).contains("success");
-//    }
+        assertThat(system.getLoginInfo()).contains(LOGIN_SUCCESS);
+    }
+
+    @Test
+    void loginFAILKiwerStock() {
+
+        BrokerageAPIFactory factory = spy(new KiwerAPIFactory());
+        StockBroker mockBroker = mock(StockBroker.class);
+
+        doReturn(LOGIN_FAIL).when(mockBroker).getLoginInfo();
+        doReturn(mockBroker).when(factory).createBrokerageAPI();
+
+        system = new AutoTradingSystem(factory.createBrokerageAPI());
+
+        system.login(ID, WRONG_PASSWORD);
+
+        assertThat(system.getLoginInfo()).contains(LOGIN_FAIL);
+    }
 
     @Test
     void loginPASSNemoStock() {

@@ -35,6 +35,7 @@ public class NemoStockBroker implements StockBroker{
             System.out.println("InterruptedException");
         }
         return 0;
+    }
 
     public void sell(String stockCode, int price, int count) {
         if(!isLogin) throw new IllegalStateException("You must login first.");
