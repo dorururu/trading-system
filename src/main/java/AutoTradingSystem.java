@@ -57,4 +57,7 @@ public class AutoTradingSystem {
     public int getMyStockCount(String stockCode) {
         return myStocks.getOrDefault(stockCode, DEFAULT_STOCK_COUNT);
     }
+
+    public Object isFallingStock() {
+    }
 }
