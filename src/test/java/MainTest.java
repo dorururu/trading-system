@@ -3,14 +3,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 
 class MainTest {
-    public static final String ID = "ID";
-    public static final String PASSWORD = "PASSWORD";
-    public static final String WRONG_PASSWORD = "WRONG_PASSWORD";
     AutoTradingSystem system;
 
     @Mock
@@ -44,52 +39,38 @@ class MainTest {
 //        assertThat(broker).isInstanceOf(NemoStock.class);
 //    }
 //
-//
-//    @Test
-//    void loginKiwerStock() {
-//        AutoTradingSystem system = new AutoTradingSystem();
-//        StockBroker broker = new StockBroker(Kiwer);
-//        system.selectBroker(broker);
-//
-//        system.login();
-//
-//        assertThat(system.getLoginInfo()).contains("success");
-//    }
 
     @Test
-    void loginPASSNemoStock() {
-        broker = mock(NemoStockBroker.class);
-        when(broker.getLoginInfo()).thenReturn("success");
+    void loginKiwerStock() {
+        StockBroker broker = new KiwerStockBroker();
         AutoTradingSystem system = new AutoTradingSystem(broker);
 
-        system.login(ID, PASSWORD);
+        system.login("ID", "PASSWORD");
 
         assertThat(system.getLoginInfo()).contains("success");
     }
 
     @Test
-    void loginFAILNemoStock() {
-        broker = mock(NemoStockBroker.class);
-        when(broker.getLoginInfo()).thenReturn("fail");
+    void loginNemoStock() {
+        StockBroker broker = new NemoStockBroker();
         AutoTradingSystem system = new AutoTradingSystem(broker);
 
-        system.login(ID, WRONG_PASSWORD);
+        system.login("ID", "PASSWORD");
 
-        assertThat(system.getLoginInfo()).contains("fail");
+        assertThat(system.getLoginInfo()).contains("success");
     }
 
-//    @Test
-//    void buyByKiwerStock() {
-//        AutoTradingSystem system = new AutoTradingSystem();
-//        StockBroker broker = new StockBroker(Kiwer);
-//        system.selectBroker(broker);
-//        system.login();
-//
-//        system.buy("stockCode1", 3, 500);
-//
-//        assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(1500);
-//    }
-//
+    @Test
+    void buyByKiwerStock() {
+        StockBroker broker = new KiwerStockBroker();
+        AutoTradingSystem system = new AutoTradingSystem(broker);
+        system.login("ID", "PASSWORD");
+
+        system.buy("stockCode1", 3, 500);
+
+        assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(1500);
+    }
+
     @Test
     void buyByNemoStock() {
         StockBroker broker = new NemoStockBroker();
