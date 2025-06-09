@@ -17,6 +17,10 @@ public class KiwerStockBroker implements StockBroker {
         isLogin = true;
     }
 
+    public KiwerStockBroker(){
+        api = new KiwerAPI();
+    }
+
     @Override
     public String getLoginInfo() {
         return isLogin? "success" : "fail";

@@ -41,7 +41,7 @@ class MainTest {
 //        assertThat(broker).isInstanceOf(NemoStock.class);
 //    }
 //
-//
+
     @Test
     void loginKiwerStock() {
         StockBroker broker = new KiwerStockBroker();
@@ -69,7 +69,8 @@ class MainTest {
         AutoTradingSystem system = new AutoTradingSystem(broker);
         system.login("ID", "PASSWORD");
 
-        system.buy("stockCode1", 5, 300);
+
+        system.buy("stockCode1", 3, 500);
 
         assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(1500);
     }
