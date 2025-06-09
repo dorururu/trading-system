@@ -4,6 +4,10 @@ public class KiwerStockBroker implements StockBroker {
     private String password;
     private boolean isLogin;
 
+    public KiwerStockBroker(){
+        api = new KiwerAPI();
+    }
+
 
     @Override
     public void login(String id, String pw) {
@@ -13,13 +17,22 @@ public class KiwerStockBroker implements StockBroker {
         isLogin = true;
     }
 
+    public KiwerStockBroker(){
+        api = new KiwerAPI();
+    }
+
     @Override
     public String getLoginInfo() {
         return isLogin? "success" : "fail";
     }
 
     @Override
+
     public int getPrice(String stockCode) {
         return api.currentPrice(stockCode);
+
+    public void buy(String stockCode,  int count, int price) {
+        if(!isLogin) throw new IllegalStateException("You must login first.");
+        api.buy( stockCode, count ,  price);
     }
 }
