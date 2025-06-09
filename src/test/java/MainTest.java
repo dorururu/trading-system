@@ -11,7 +11,7 @@ class MainTest {
     AutoTradingSystem system;
 
     @Mock
-    StockBrocker brocker;
+    StockBroker brocker;
 
     @BeforeEach
     void setUp() {
@@ -52,18 +52,17 @@ class MainTest {
 //
 //        assertThat(system.getLoginInfo()).contains("success");
 //    }
-//
-//    @Test
-//    void loginNemoStock() {
-//        AutoTradingSystem system = new AutoTradingSystem();
-//        StockBroker broker = new StockBroker(Nemo);
-//        system.selectBroker(broker);
-//
-//        system.login();
-//
-//        assertThat(system.getLoginInfo()).contains("success");
-//    }
-//
+
+    @Test
+    void loginNemoStock() {
+        StockBroker broker = new NemoStockBroker();
+        AutoTradingSystem system = new AutoTradingSystem(broker);
+
+        system.login("ID", "PASSWORD");
+
+        assertThat(system.getLoginInfo()).contains("success");
+    }
+
 //    @Test
 //    void buyByKiwerStock() {
 //        AutoTradingSystem system = new AutoTradingSystem();
@@ -111,6 +110,5 @@ class MainTest {
 //
 //        assertThat(system.getMyStockPrice("stockCode1")).isLessThan(800);
 //    }
-
 
 }
