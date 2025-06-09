@@ -119,21 +119,21 @@ class MainTest {
 
         system.buy("stockCode1", 4, 200);
 
-        assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(200);
+        assertThat(system.getMyStockCount("stockCode1")).isEqualTo(200);
     }
-//
-//    @Test
-//    void sellByKiwerStock() {
-//        AutoTradingSystem system = new AutoTradingSystem();
-//        StockBroker broker = new StockBroker(Kiwer);
-//        system.selectBroker(broker);
-//        system.login();
-//
-//        system.sell("stockCode1", 3, 500);
-//
-//        assertThat(system.getMyStockPrice("stockCode1")).isLessThen(1500);
-//    }
-//
+
+    @Test
+    void sellByKiwerStock() {
+        StockBroker broker = new KiwerStockBroker();
+        AutoTradingSystem system = new AutoTradingSystem(broker);
+        system.login("ID", "PASSWORD");
+
+        system.buy("stockCode1", 4, 200);
+        system.sell("stockCode1", 4, 200);
+
+        assertThat(system.getMyStockCount("stockCode1")).isEqualTo(0);
+    }
+
     @Test
     void sellByNemoStock() {
         StockBroker broker = new NemoStockBroker();
@@ -166,7 +166,7 @@ class MainTest {
         system.buy("stockCode1", 4, 100);
         system.sell("stockCode1", 4, 200);
 
-        assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(100);
+        assertThat(system.getMyStockCount("stockCode1")).isEqualTo(100);
     }
 
 
@@ -188,4 +188,29 @@ class MainTest {
 
         verify(broker, times(1)).getPrice(anyString());
     }
+
+    @Test
+    void buyNiceTiming() {
+        StockBroker broker = new NemoStockBroker();
+        AutoTradingSystem system = new AutoTradingSystem(broker);
+        system.login("ID", "PASSWORD");
+        when(system.isRisingStock()).thenReturn(true);
+
+        system.buyNiceTiming("stockCode1", 30);
+
+        assertThat(system.getMyStockCount("stockCode1")).isGreaterThan(30);
+    }
+
+    @Test
+    void sellNiceTiming() {
+        StockBroker broker = new NemoStockBroker();
+        AutoTradingSystem system = new AutoTradingSystem(broker);
+        system.login("ID", "PASSWORD");
+        when(system.isFallingStock()).thenReturn(true);
+
+        system.sellNiceTiming("stockCode1", 30);
+
+        assertThat(system.getMyStockCount("stockCode1")).isLessThan(30);
+    }
+
 }
