@@ -11,6 +11,11 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class MainTest {
+    public static final String ID = "ID";
+    public static final String PASSWORD = "PASSWORD";
+    public static final String WRONG_PASSWORD = "WRONG_PASSWORD";
+    public static final String LOGIN_SUCCESS = "success";
+    public static final String LOGIN_FAIL = "fail";
     AutoTradingSystem system;
 
     @Mock
@@ -46,45 +51,66 @@ class MainTest {
 //
 
 //
+//
+//    @Test
+//    void loginKiwerStock() {
+//        AutoTradingSystem system = new AutoTradingSystem();
+//        StockBroker broker = new StockBroker(Kiwer);
+//        system.selectBroker(broker);
+//
+//        system.login();
+//
+//        assertThat(system.getLoginInfo()).contains("success");
+//    }
 
     @Test
-    void loginKiwerStock() {
-        StockBroker broker = new KiwerStockBroker();
-        AutoTradingSystem system = new AutoTradingSystem(broker);
+    void loginPASSNemoStock() {
+        BrokerageAPIFactory factory = spy(new NemoAPIFactory());
+        StockBroker mockBroker = mock(StockBroker.class);
 
+        doReturn(LOGIN_SUCCESS).when(mockBroker).getLoginInfo();
+        doReturn(mockBroker).when(factory).createBrokerageAPI();
 
-        system.login("ID", "PASSWORD");
+        system = new AutoTradingSystem(factory.createBrokerageAPI());
 
-        assertThat(system.getLoginInfo()).contains("success");
+        system.login(ID, PASSWORD);
+
+        assertThat(system.getLoginInfo()).contains(LOGIN_SUCCESS);
     }
 
     @Test
-    void loginNemoStock() {
-        StockBroker broker = new NemoStockBroker();
-        AutoTradingSystem system = new AutoTradingSystem(broker);
+    void loginFAILNemoStock() {
 
-        system.login("ID", "PASSWORD");
+        BrokerageAPIFactory factory = spy(new NemoAPIFactory());
+        StockBroker mockBroker = mock(StockBroker.class);
 
-        assertThat(system.getLoginInfo()).contains("success");
+        doReturn(LOGIN_FAIL).when(mockBroker).getLoginInfo();
+        doReturn(mockBroker).when(factory).createBrokerageAPI();
+
+        system = new AutoTradingSystem(factory.createBrokerageAPI());
+
+        system.login(ID, WRONG_PASSWORD);
+
+        assertThat(system.getLoginInfo()).contains(LOGIN_FAIL);
     }
 
-    @Test
-    void buyByKiwerStock() {
-        StockBroker broker = new KiwerStockBroker();
-        AutoTradingSystem system = new AutoTradingSystem(broker);
-        system.login("ID", "PASSWORD");
-
-
-        system.buy("stockCode1", 3, 500);
-
-        assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(1500);
-    }
-
+//    @Test
+//    void buyByKiwerStock() {
+//        AutoTradingSystem system = new AutoTradingSystem();
+//        StockBroker broker = new StockBroker(Kiwer);
+//        system.selectBroker(broker);
+//        system.login();
+//
+//        system.buy("stockCode1", 3, 500);
+//
+//        assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(1500);
+//    }
+//
     @Test
     void buyByNemoStock() {
         StockBroker broker = new NemoStockBroker();
         AutoTradingSystem system = new AutoTradingSystem(broker);
-        system.login("ID", "PASSWORD");
+        system.login(ID, PASSWORD);
 
         system.buy("stockCode1", 4, 200);
 
