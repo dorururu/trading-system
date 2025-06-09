@@ -26,6 +26,12 @@ public class KiwerStockBroker implements StockBroker {
 
     public int getPrice(String stockCode) {
         return api.currentPrice(stockCode);
+    }
+
+    @Override
+    public void sell(String stockCode, int price, int count) {
+
+    }
 
     public void buy(String stockCode,  int count, int price) {
         if(!isLogin) throw new IllegalStateException("You must login first.");

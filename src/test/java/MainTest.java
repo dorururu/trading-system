@@ -147,6 +147,7 @@ class MainTest {
         AutoTradingSystem system = new AutoTradingSystem(broker);
         system.login("ID", "PASSWORD");
 
+        system.buy("stockCode1", 4, 200);
         system.sell("stockCode1", 4, 200);
 
         assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(0);
