@@ -28,8 +28,17 @@ public class NemoStockBroker implements StockBroker{
     }
 
     @Override
+    public int getPrice(String stockCode) {
+        try {
+            return api.getMarketPrice(stockCode, 1);
+        } catch (InterruptedException e) {
+            System.out.println("InterruptedException");
+        }
+        return 0;
+
     public void sell(String stockCode, int price, int count) {
         if(!isLogin) throw new IllegalStateException("You must login first.");
         api.sellingStock(stockCode, price, count);
+
     }
 }
