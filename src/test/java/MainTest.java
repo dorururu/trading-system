@@ -37,29 +37,36 @@ class MainTest {
         assertThat(system.getBroker()).isInstanceOf(NemoStockBroker.class);
     }
 
+    @Test
+    void loginPASSKiwerStock() {
+        BrokerageAPIFactory factory = spy(new KiwerAPIFactory());
+        StockBroker mockBroker = mock(StockBroker.class);
 
-//    @Test
-//    void selectStockBrokerKiwer() {
-//        AutoTradingSystem system = new AutoTradingSystem();
-//        StockBroker broker = new KiwerStockBroker();
-//        system.selectBroker(broker);
-//
-//        assertThat(broker).isInstanceOf(KiwerStock.class);
-//    }
-//
+        doReturn(LOGIN_SUCCESS).when(mockBroker).getLoginInfo();
+        doReturn(mockBroker).when(factory).createBrokerageAPI();
 
-//
-//
-//    @Test
-//    void loginKiwerStock() {
-//        AutoTradingSystem system = new AutoTradingSystem();
-//        StockBroker broker = new StockBroker(Kiwer);
-//        system.selectBroker(broker);
-//
-//        system.login();
-//
-//        assertThat(system.getLoginInfo()).contains("success");
-//    }
+        system = new AutoTradingSystem(factory.createBrokerageAPI());
+
+        system.login(ID, PASSWORD);
+
+        assertThat(system.getLoginInfo()).contains(LOGIN_SUCCESS);
+    }
+
+    @Test
+    void loginFAILKiwerStock() {
+
+        BrokerageAPIFactory factory = spy(new KiwerAPIFactory());
+        StockBroker mockBroker = mock(StockBroker.class);
+
+        doReturn(LOGIN_FAIL).when(mockBroker).getLoginInfo();
+        doReturn(mockBroker).when(factory).createBrokerageAPI();
+
+        system = new AutoTradingSystem(factory.createBrokerageAPI());
+
+        system.login(ID, WRONG_PASSWORD);
+
+        assertThat(system.getLoginInfo()).contains(LOGIN_FAIL);
+    }
 
     @Test
     void loginPASSNemoStock() {
@@ -136,7 +143,7 @@ class MainTest {
         system.buy("stockCode1", 4, 200);
         system.sell("stockCode1", 4, 200);
 
-        assertThat(system.getMyStockCount("stockCode1")).isEqualTo(0);
+        assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(0);
     }
 
     @Test
@@ -145,10 +152,9 @@ class MainTest {
         AutoTradingSystem system = new AutoTradingSystem(broker);
         system.login("ID", "PASSWORD");
 
-        system.buy("stockCode1", 4, 200);
         system.sell("stockCode1", 4, 200);
 
-        assertThat(system.getMyStockCount("stockCode1")).isEqualTo(0);
+        assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(0);
     }
 
     @Test
@@ -162,6 +168,8 @@ class MainTest {
 
         assertThat(system.getMyStockCount("stockCode1")).isEqualTo(100);
     }
+
+
 
     @Test
     void getPriceByNemoStock() {
