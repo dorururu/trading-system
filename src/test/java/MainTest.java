@@ -3,9 +3,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 class MainTest {
+    public static final String ID = "ID";
+    public static final String PASSWORD = "PASSWORD";
+    public static final String WRONG_PASSWORD = "WRONG_PASSWORD";
     AutoTradingSystem system;
 
     @Mock
@@ -52,13 +57,25 @@ class MainTest {
 //    }
 
     @Test
-    void loginNemoStock() {
-        StockBroker broker = new NemoStockBroker();
+    void loginPASSNemoStock() {
+        broker = mock(NemoStockBroker.class);
+        when(broker.getLoginInfo()).thenReturn("success");
         AutoTradingSystem system = new AutoTradingSystem(broker);
 
-        system.login("ID", "PASSWORD");
+        system.login(ID, PASSWORD);
 
         assertThat(system.getLoginInfo()).contains("success");
+    }
+
+    @Test
+    void loginFAILNemoStock() {
+        broker = mock(NemoStockBroker.class);
+        when(broker.getLoginInfo()).thenReturn("fail");
+        AutoTradingSystem system = new AutoTradingSystem(broker);
+
+        system.login(ID, WRONG_PASSWORD);
+
+        assertThat(system.getLoginInfo()).contains("fail");
     }
 
 //    @Test
