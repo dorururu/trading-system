@@ -58,6 +58,38 @@ public class AutoTradingSystem {
         return myStocks.getOrDefault(stockCode, DEFAULT_STOCK_COUNT);
     }
 
-    public Object isFallingStock() {
+
+    public void sellNiceTiming(String stockCode1, int quantity) {
+        try {
+            if (isFallingStock(stockCode1)) {
+                // 3회 연속 하락한 경우 매도
+                broker.sell(stockCode1,broker.getPrice(stockCode1) ,quantity);
+                System.out.println("Sold for " + stockCode1 + " (" + quantity + " shares)");
+            } else {
+                System.out.println("The price is not falling trend.");
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+
+        public boolean isFallingStock(String stockCode) throws InterruptedException {
+            int prevPrice = broker.getPrice(stockCode);
+
+            for (int i = 0; i < 3; i++) {
+                Thread.sleep(1000);
+                int currentPrice = broker.getPrice(stockCode);
+
+                System.out.println("현재 가격 : " + currentPrice);
+                if (currentPrice >= prevPrice) {
+                    return false; // 하락이 아니면 즉시 false
+                }
+
+                prevPrice = currentPrice;
+            }
+
+            return true; // 3번 모두 하락했으면 true
+        }
+
 }
