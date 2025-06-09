@@ -57,4 +57,28 @@ public class AutoTradingSystem {
     public int getMyStockCount(String stockCode) {
         return myStocks.getOrDefault(stockCode, DEFAULT_STOCK_COUNT);
     }
+
+    public boolean isRisingStock(String stockCode) throws InterruptedException {
+        int price = broker.getMarketPrice(stockCode);
+        for (int i = 0; i < 3; i++) {
+            int newPrice = broker.getMarketPrice(stockCode);
+            if (price >= newPrice) {
+                return false;
+            }
+
+            price = newPrice;
+        }
+        return true;
+    }
+
+    public void buyNiceTiming(String stockCode, int budget) throws InterruptedException {
+        if (isRisingStock(stockCode)) {
+            int marketPrice = broker.getMarketPrice(stockCode);
+            int count = budget / marketPrice;
+            buy(stockCode, marketPrice, count);
+            System.out.println("Bought " + count + " shares of " + stockCode + " at price " + marketPrice);
+        } else {
+            System.out.println("Not a nice timing to buy " + stockCode);
+        }
+    }
 }

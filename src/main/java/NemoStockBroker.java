@@ -43,4 +43,9 @@ public class NemoStockBroker implements StockBroker{
         api.sellingStock(stockCode, price, count);
 
     }
+
+    @Override
+    public int getMarketPrice(String stockCode) throws InterruptedException {
+        return api.getMarketPrice(stockCode, 1);
+    }
 }

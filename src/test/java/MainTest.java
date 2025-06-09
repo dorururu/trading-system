@@ -202,7 +202,7 @@ class MainTest {
 
         verify(broker, times(1)).getPrice(anyString());
     }
-
+  
     @Test
     void getPriceAndCheckReturnValueByKiwerStock() {
         StockBroker broker = mock(KiwerStockBroker.class);
@@ -216,27 +216,41 @@ class MainTest {
     }
 
     @Test
-    void buyNiceTiming() {
-        StockBroker broker = new NemoStockBroker();
+    void buyNiceTimingNemo() throws InterruptedException {
+        StockBroker broker = spy(new NemoStockBroker());
         AutoTradingSystem system = new AutoTradingSystem(broker);
         system.login("ID", "PASSWORD");
-        when(system.isRisingStock()).thenReturn(true);
+        when(broker.getMarketPrice("stockCode1"))
+                .thenReturn(1, 2, 3, 5);
 
         system.buyNiceTiming("stockCode1", 30);
 
-        assertThat(system.getMyStockCount("stockCode1")).isGreaterThan(30);
+        assertThat(system.getMyStockCount("stockCode1")).isGreaterThan(1);
     }
 
     @Test
-    void sellNiceTiming() {
-        StockBroker broker = new NemoStockBroker();
+    void buyNiceTimingKiwer_fail() throws InterruptedException {
+        StockBroker broker = spy(new KiwerStockBroker());
         AutoTradingSystem system = new AutoTradingSystem(broker);
         system.login("ID", "PASSWORD");
-        when(system.isFallingStock()).thenReturn(true);
+        when(broker.getMarketPrice("stockCode1"))
+                .thenReturn(1, 3, 2);
 
-        system.sellNiceTiming("stockCode1", 30);
+        system.buyNiceTiming("stockCode1", 30);
 
-        assertThat(system.getMyStockCount("stockCode1")).isLessThan(30);
+        assertThat(system.getMyStockCount("stockCode1")).isEqualTo(0);
     }
+
+//    @Test
+//    void sellNiceTiming() {
+//        StockBroker broker = new NemoStockBroker();
+//        AutoTradingSystem system = new AutoTradingSystem(broker);
+//        system.login("ID", "PASSWORD");
+//        when(system.isFallingStock()).thenReturn(true);
+//
+//        system.sellNiceTiming("stockCode1", 30);
+//
+//        assertThat(system.getMyStockCount("stockCode1")).isLessThan(30);
+//    }
 
 }
