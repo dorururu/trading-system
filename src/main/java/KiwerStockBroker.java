@@ -4,6 +4,10 @@ public class KiwerStockBroker implements StockBroker {
     private String password;
     private boolean isLogin;
 
+    public KiwerStockBroker(){
+        api = new KiwerAPI();
+    }
+
 
     @Override
     public void login(String id, String pw) {
@@ -16,5 +20,10 @@ public class KiwerStockBroker implements StockBroker {
     @Override
     public String getLoginInfo() {
         return isLogin? "success" : "fail";
+    }
+
+    @Override
+    public void buy(String stockCode, int price, int count) {
+
     }
 }
