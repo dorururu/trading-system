@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -224,8 +225,30 @@ class MainTest {
                 .thenReturn(1, 2, 3, 5);
 
         system.buyNiceTiming("stockCode1", 30);
-
+      
         assertThat(system.getMyStockCount("stockCode1")).isGreaterThan(1);
+    }
+
+    @Test
+    void sellNiceTiming() {
+        AutoTradingSystem system = new AutoTradingSystem(broker);
+        system.login("ID", "PASSWORD");
+        when(broker.getPrice("stockCode1"))
+                .thenReturn(100, 99, 98, 97);
+        system.sellNiceTiming("stockCode1", 30);
+
+        assertThat(system.getMyStockCount("stockCode1")).isLessThan(30);
+    }
+
+    @Test
+    void sellNotNiceTiming() {
+        AutoTradingSystem system = new AutoTradingSystem(broker);
+        system.login("ID", "PASSWORD");
+        when(broker.getPrice("stockCode1"))
+                .thenReturn(100, 99, 101, 97);
+        system.sellNiceTiming("stockCode1", 30);
+
+       assertThat(system.getMyStockCount("stockCode1")).isLessThan(30);
     }
 
     @Test
