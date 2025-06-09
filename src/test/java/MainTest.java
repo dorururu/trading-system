@@ -38,8 +38,6 @@ class MainTest {
     }
 
 
-
-
 //    @Test
 //    void selectStockBrokerKiwer() {
 //        AutoTradingSystem system = new AutoTradingSystem();
@@ -114,21 +112,21 @@ class MainTest {
 
         system.buy("stockCode1", 4, 200);
 
-        assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(200);
+        assertThat(system.getMyStockCount("stockCode1")).isEqualTo(200);
     }
-//
-//    @Test
-//    void sellByKiwerStock() {
-//        AutoTradingSystem system = new AutoTradingSystem();
-//        StockBroker broker = new StockBroker(Kiwer);
-//        system.selectBroker(broker);
-//        system.login();
-//
-//        system.sell("stockCode1", 3, 500);
-//
-//        assertThat(system.getMyStockPrice("stockCode1")).isLessThen(1500);
-//    }
-//
+
+    @Test
+    void sellByKiwerStock() {
+        StockBroker broker = new KiwerStockBroker();
+        AutoTradingSystem system = new AutoTradingSystem(broker);
+        system.login("ID", "PASSWORD");
+
+        system.buy("stockCode1", 4, 200);
+        system.sell("stockCode1", 4, 200);
+
+        assertThat(system.getMyStockCount("stockCode1")).isEqualTo(0);
+    }
+
     @Test
     void sellByNemoStock() {
         StockBroker broker = new NemoStockBroker();
@@ -138,7 +136,7 @@ class MainTest {
         system.buy("stockCode1", 4, 200);
         system.sell("stockCode1", 4, 200);
 
-        assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(0);
+        assertThat(system.getMyStockCount("stockCode1")).isEqualTo(0);
     }
 
     @Test
@@ -149,7 +147,7 @@ class MainTest {
 
         system.sell("stockCode1", 4, 200);
 
-        assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(0);
+        assertThat(system.getMyStockCount("stockCode1")).isEqualTo(0);
     }
 
     @Test
@@ -161,10 +159,8 @@ class MainTest {
         system.buy("stockCode1", 4, 100);
         system.sell("stockCode1", 4, 200);
 
-        assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(100);
+        assertThat(system.getMyStockCount("stockCode1")).isEqualTo(100);
     }
-
-
 
     @Test
     void getPriceByNemoStock() {
