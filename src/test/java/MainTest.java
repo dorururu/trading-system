@@ -73,17 +73,16 @@ class MainTest {
 //        assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(1500);
 //    }
 //
-//    @Test
-//    void buyByNemoStock() {
-//        AutoTradingSystem system = new AutoTradingSystem();
-//        StockBroker broker = new StockBroker(Nemo);
-//        system.selectBroker(broker);
-//        system.login();
-//
-//        system.buy("stockCode1", 4, 200);
-//
-//        assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(800);
-//    }
+    @Test
+    void buyByNemoStock() {
+        StockBroker broker = new NemoStockBroker();
+        AutoTradingSystem system = new AutoTradingSystem(broker);
+        system.login("ID", "PASSWORD");
+
+        system.buy("stockCode1", 4, 200);
+
+        assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(800);
+    }
 //
 //    @Test
 //    void sellByKiwerStock() {
