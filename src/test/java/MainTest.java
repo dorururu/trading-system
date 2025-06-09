@@ -184,10 +184,10 @@ class MainTest {
     @Test
     void buyNiceTimingNemo() throws InterruptedException {
         StockBroker broker = spy(new NemoStockBroker());
-        AutoTradingSystem system = spy(new AutoTradingSystem(broker));
+        AutoTradingSystem system = new AutoTradingSystem(broker);
         system.login("ID", "PASSWORD");
-        when(system.isRisingStock("stockCode1")).thenReturn(true);
-        when(broker.getMarketPrice("stockCode1")).thenReturn(1);
+        when(broker.getMarketPrice("stockCode1"))
+                .thenReturn(1, 2, 3, 5);
 
         system.buyNiceTiming("stockCode1", 30);
 
@@ -195,16 +195,16 @@ class MainTest {
     }
 
     @Test
-    void buyNiceTimingKiwer() throws InterruptedException {
+    void buyNiceTimingKiwer_fail() throws InterruptedException {
         StockBroker broker = spy(new KiwerStockBroker());
-        AutoTradingSystem system = spy(new AutoTradingSystem(broker));
+        AutoTradingSystem system = new AutoTradingSystem(broker);
         system.login("ID", "PASSWORD");
-        when(system.isRisingStock("stockCode1")).thenReturn(true);
-        when(broker.getMarketPrice("stockCode1")).thenReturn(1);
+        when(broker.getMarketPrice("stockCode1"))
+                .thenReturn(1, 3, 2);
 
         system.buyNiceTiming("stockCode1", 30);
 
-        assertThat(system.getMyStockCount("stockCode1")).isGreaterThan(1);
+        assertThat(system.getMyStockCount("stockCode1")).isEqualTo(0);
     }
 
 //    @Test
