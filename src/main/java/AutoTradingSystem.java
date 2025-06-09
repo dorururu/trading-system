@@ -59,11 +59,14 @@ public class AutoTradingSystem {
     }
 
     public boolean isRisingStock(String stockCode) throws InterruptedException {
-        int price = 0;
+        int price = broker.getMarketPrice(stockCode);
         for (int i = 0; i < 3; i++) {
-            if (price >= broker.getMarketPrice(stockCode)) {
+            int newPrice = broker.getMarketPrice(stockCode);
+            if (price >= newPrice) {
                 return false;
             }
+
+            price = newPrice;
         }
         return true;
     }
