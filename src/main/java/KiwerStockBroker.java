@@ -24,6 +24,7 @@ public class KiwerStockBroker implements StockBroker {
     @Override
     public int getPrice(String stockCode) {
         return api.currentPrice(stockCode);
+    }
 
     @Override
     public void buy(String stockCode, int price, int count) {
