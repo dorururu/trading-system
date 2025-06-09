@@ -59,7 +59,6 @@ class MainTest {
 
     @Test
     void loginPASSNemoStock() {
-
         BrokerageAPIFactory factory = spy(new NemoAPIFactory());
         StockBroker mockBroker = mock(StockBroker.class);
 
