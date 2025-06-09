@@ -8,7 +8,6 @@ public class KiwerStockBroker implements StockBroker {
         api = new KiwerAPI();
     }
 
-
     @Override
     public void login(String id, String pw) {
         this.id = id;
@@ -23,12 +22,20 @@ public class KiwerStockBroker implements StockBroker {
     }
 
     @Override
-
     public int getPrice(String stockCode) {
         return api.currentPrice(stockCode);
+    }
 
-    public void buy(String stockCode,  int count, int price) {
+    @Override
+    public void buy(String stockCode, int price, int count) {
         if(!isLogin) throw new IllegalStateException("You must login first.");
-        api.buy( stockCode, count ,  price);
+        api.buy(stockCode, count, price); // Interface는 price, count 순 <> Kiwer API는 반대
+    }
+
+    @Override
+    public void sell(String stockCode, int price, int count) {
+        if(!isLogin) throw new IllegalStateException("You must login first.");
+        api.sell(stockCode, count, price); // Interface는 price, count 순 <> Kiwer API는 반대
+
     }
 }

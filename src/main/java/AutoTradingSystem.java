@@ -50,8 +50,10 @@ public class AutoTradingSystem {
     }
 
     public int getMyStockPrice(String stockCode) {
-        if(myStocks.get(stockCode) == null) throw new NullPointerException("Stock not found: " + stockCode);
+        return myStocks.getOrDefault(stockCode, 0) * broker.getPrice(stockCode);
+    }
 
-        return myStocks.get(stockCode);
+    public int getMyStockCount(String stockCode) {
+        return myStocks.getOrDefault(stockCode, 0);
     }
 }
