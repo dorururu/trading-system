@@ -2,6 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AutoTradingSystem {
+    public static final int DEFAULT_STOCK_COUNT = 0;
     StockBroker broker;
     Map<String, Integer> myStocks = new HashMap<>();
 
@@ -30,7 +31,7 @@ public class AutoTradingSystem {
 
     public void buy(String stockCode, int price, int count) {
         broker.buy(stockCode, price, count);
-        myStocks.put(stockCode, myStocks.getOrDefault(stockCode, 0) + count);
+        myStocks.put(stockCode, myStocks.getOrDefault(stockCode, DEFAULT_STOCK_COUNT) + count);
     }
 
     public void sell(String stockCode, int price, int count) {
@@ -50,10 +51,10 @@ public class AutoTradingSystem {
     }
 
     public int getMyStockPrice(String stockCode) {
-        return myStocks.getOrDefault(stockCode, 0) * broker.getPrice(stockCode);
+        return myStocks.getOrDefault(stockCode, DEFAULT_STOCK_COUNT) * broker.getPrice(stockCode);
     }
 
     public int getMyStockCount(String stockCode) {
-        return myStocks.getOrDefault(stockCode, 0);
+        return myStocks.getOrDefault(stockCode, DEFAULT_STOCK_COUNT);
     }
 }
