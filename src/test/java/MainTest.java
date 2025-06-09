@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 
 class MainTest {
@@ -107,5 +108,30 @@ class MainTest {
 //
 //        assertThat(system.getMyStockPrice("stockCode1")).isLessThan(800);
 //    }
+
+
+    @Test
+    void buyNiceTiming() {
+        StockBroker broker = new NemoStockBroker();
+        AutoTradingSystem system = new AutoTradingSystem(broker);
+        system.login("ID", "PASSWORD");
+        when(system.isRisingStock()).thenReturn(true);
+
+        system.buyNiceTiming("stockCode1", 30);
+
+        assertThat(system.getMyStockCount("stockCode1")).isGreaterThan(30);
+    }
+
+    @Test
+    void sellNiceTiming() {
+        StockBroker broker = new NemoStockBroker();
+        AutoTradingSystem system = new AutoTradingSystem(broker);
+        system.login("ID", "PASSWORD");
+        when(system.isFallingStock()).thenReturn(true);
+
+        system.sellNiceTiming("stockCode1", 30);
+
+        assertThat(system.getMyStockCount("stockCode1")).islessThan(30);
+    }
 
 }
