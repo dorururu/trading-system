@@ -1,5 +1,9 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class AutoTradingSystem {
     StockBroker broker;
+    Map<String, Integer> myStocks = new HashMap<>();
 
     public AutoTradingSystem() {
     }
@@ -22,5 +26,14 @@ public class AutoTradingSystem {
 
     public String getLoginInfo(){
         return broker.getLoginInfo();
+    }
+
+    public void buy(String stockCode, int price, int count) {
+        broker.buy(stockCode, price, count);
+        myStocks.put(stockCode, myStocks.getOrDefault(stockCode, 0) + price * count);
+    }
+
+    public int getMyStockPrice(String stockCode) {
+        return myStocks.getOrDefault(stockCode, 0);
     }
 }

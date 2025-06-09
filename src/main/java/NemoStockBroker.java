@@ -22,23 +22,8 @@ public class NemoStockBroker implements StockBroker{
     }
 
     @Override
-    public void buy(String stockCode, int price, int amount){
-        api.purchasingStock(stockCode,price,amount);
+    public void buy(String stockCode, int price, int count) {
+        if(!isLogin) throw new IllegalStateException("You must login first.");
+        api.purchasingStock(stockCode, price, count);
     }
-
-    @Override
-    public void sell(String stockCode, int price, int amount){
-        api.sellingStock(stockCode,price,amount);
-    }
-
-    @Override
-    public void getPrice(String stockCode) {
-        try {
-            api.getMarketPrice(stockCode,1);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
 }
