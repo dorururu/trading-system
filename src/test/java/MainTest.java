@@ -173,8 +173,10 @@ class MainTest {
 
 
     @Test
-    void getPriceByNemoStock() {
+    void getPriceMethodCalledByNemoStock() {
         StockBroker broker = mock(NemoStockBroker.class);
+        system.selectBroker(broker);
+        system.login(ID, PASSWORD);
 
         broker.getPrice("NemoStock");
 
@@ -182,15 +184,39 @@ class MainTest {
     }
 
     @Test
-    void getPriceByKiwerStock() {
+    void getPriceAndCheckReturnValueByNemoStock() {
+        StockBroker broker = mock(NemoStockBroker.class);
+        system.selectBroker(broker);
+        system.login(ID, PASSWORD);
+        when(broker.getPrice(anyString())).thenReturn(100);
+
+        assertThat(broker.getPrice("NemoStock")).isEqualTo(100);
+    }
+
+    @Test
+    void getPriceMethodCalledByKiwerStock() {
         StockBroker broker = mock(KiwerStockBroker.class);
+        system.selectBroker(broker);
+        system.login(ID, PASSWORD);
 
         broker.getPrice("KiwerStock");
 
         verify(broker, times(1)).getPrice(anyString());
     }
 
-/*    @Test
+    @Test
+    void getPriceAndCheckReturnValueByKiwerStock() {
+        StockBroker broker = mock(KiwerStockBroker.class);
+        system.selectBroker(broker);
+        system.login(ID, PASSWORD);
+        when(broker.getPrice(anyString())).thenReturn(100);
+
+        broker.getPrice("KiwerStock");
+
+        assertThat(broker.getPrice("KiwerStock")).isEqualTo(100);
+    }
+
+    @Test
     void buyNiceTiming() {
         StockBroker broker = new NemoStockBroker();
         AutoTradingSystem system = new AutoTradingSystem(broker);
