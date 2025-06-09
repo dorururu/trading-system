@@ -76,6 +76,7 @@ public class AutoTradingSystem {
             int marketPrice = broker.getMarketPrice(stockCode);
             int count = budget / marketPrice;
             buy(stockCode, marketPrice, count);
+            System.out.println("Bought " + count + " shares of " + stockCode + " at price " + marketPrice);
         } else {
             System.out.println("Not a nice timing to buy " + stockCode);
         }
