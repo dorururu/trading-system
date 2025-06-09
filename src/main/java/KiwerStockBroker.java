@@ -38,4 +38,9 @@ public class KiwerStockBroker implements StockBroker {
         api.sell(stockCode, count, price); // Interface는 price, count 순 <> Kiwer API는 반대
 
     }
+
+    @Override
+    public int getMarketPrice(String stockCode) {
+        return api.currentPrice(stockCode);
+    }
 }
