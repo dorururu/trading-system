@@ -16,7 +16,7 @@ class MainTest {
     }
 
     @Test
-    void selectStockBrokerKiwer() {
+    void selectStockBrokerNemo() {
         AutoTradingSystem system = new AutoTradingSystem();
         StockBroker broker = new StockBroker(Nemo);
         system.selectBroker(broker);
