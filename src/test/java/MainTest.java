@@ -16,7 +16,6 @@ class MainTest {
     public static final String WRONG_PASSWORD = "WRONG_PASSWORD";
     public static final String LOGIN_SUCCESS = "success";
     public static final String LOGIN_FAIL = "fail";
-    public static final String TEST_STOCK_CODE = "stockCode1";
     AutoTradingSystem system;
 
     @Mock
@@ -111,9 +110,9 @@ class MainTest {
         AutoTradingSystem system = new AutoTradingSystem(broker);
         system.login(ID, PASSWORD);
 
-        system.buy(TEST_STOCK_CODE, 4, 200);
+        system.buy("stockCode1", 4, 200);
 
-        assertThat(system.getMyStockCount(TEST_STOCK_CODE)).isEqualTo(200);
+        assertThat(system.getMyStockCount("stockCode1")).isEqualTo(200);
     }
 
     @Test
@@ -122,10 +121,10 @@ class MainTest {
         AutoTradingSystem system = new AutoTradingSystem(broker);
         system.login("ID", "PASSWORD");
 
-        system.buy(TEST_STOCK_CODE, 4, 200);
-        system.sell(TEST_STOCK_CODE, 4, 200);
+        system.buy("stockCode1", 4, 200);
+        system.sell("stockCode1", 4, 200);
 
-        assertThat(system.getMyStockCount(TEST_STOCK_CODE)).isEqualTo(0);
+        assertThat(system.getMyStockCount("stockCode1")).isEqualTo(0);
     }
 
     @Test
@@ -134,10 +133,10 @@ class MainTest {
         AutoTradingSystem system = new AutoTradingSystem(broker);
         system.login("ID", "PASSWORD");
 
-        system.buy(TEST_STOCK_CODE, 4, 200);
-        system.sell(TEST_STOCK_CODE, 4, 200);
+        system.buy("stockCode1", 4, 200);
+        system.sell("stockCode1", 4, 200);
 
-        assertThat(system.getMyStockCount(TEST_STOCK_CODE)).isEqualTo(0);
+        assertThat(system.getMyStockCount("stockCode1")).isEqualTo(0);
     }
 
     @Test
@@ -146,10 +145,10 @@ class MainTest {
         AutoTradingSystem system = new AutoTradingSystem(broker);
         system.login("ID", "PASSWORD");
 
-        system.buy(TEST_STOCK_CODE, 4, 200);
-        system.sell(TEST_STOCK_CODE, 4, 200);
+        system.buy("stockCode1", 4, 200);
+        system.sell("stockCode1", 4, 200);
 
-        assertThat(system.getMyStockCount(TEST_STOCK_CODE)).isEqualTo(0);
+        assertThat(system.getMyStockCount("stockCode1")).isEqualTo(0);
     }
 
     @Test
@@ -158,10 +157,10 @@ class MainTest {
         AutoTradingSystem system = new AutoTradingSystem(broker);
         system.login("ID", "PASSWORD");
 
-        system.buy(TEST_STOCK_CODE, 4, 100);
-        system.sell(TEST_STOCK_CODE, 4, 200);
+        system.buy("stockCode1", 4, 100);
+        system.sell("stockCode1", 4, 200);
 
-        assertThat(system.getMyStockCount(TEST_STOCK_CODE)).isEqualTo(100);
+        assertThat(system.getMyStockCount("stockCode1")).isEqualTo(100);
     }
 
     @Test
@@ -187,12 +186,12 @@ class MainTest {
         StockBroker broker = spy(new NemoStockBroker());
         AutoTradingSystem system = spy(new AutoTradingSystem(broker));
         system.login("ID", "PASSWORD");
-        when(system.isRisingStock(TEST_STOCK_CODE)).thenReturn(true);
-        when(broker.getMarketPrice(TEST_STOCK_CODE)).thenReturn(1);
+        when(system.isRisingStock("stockCode1")).thenReturn(true);
+        when(broker.getMarketPrice("stockCode1")).thenReturn(1);
 
-        system.buyNiceTiming(TEST_STOCK_CODE, 30);
+        system.buyNiceTiming("stockCode1", 30);
 
-        assertThat(system.getMyStockCount(TEST_STOCK_CODE)).isGreaterThan(1);
+        assertThat(system.getMyStockCount("stockCode1")).isGreaterThan(1);
     }
 
     @Test
@@ -200,12 +199,12 @@ class MainTest {
         StockBroker broker = spy(new KiwerStockBroker());
         AutoTradingSystem system = spy(new AutoTradingSystem(broker));
         system.login("ID", "PASSWORD");
-        when(system.isRisingStock(TEST_STOCK_CODE)).thenReturn(true);
-        when(broker.getMarketPrice(TEST_STOCK_CODE)).thenReturn(1);
+        when(system.isRisingStock("stockCode1")).thenReturn(true);
+        when(broker.getMarketPrice("stockCode1")).thenReturn(1);
 
-        system.buyNiceTiming(TEST_STOCK_CODE, 30);
+        system.buyNiceTiming("stockCode1", 30);
 
-        assertThat(system.getMyStockCount(TEST_STOCK_CODE)).isGreaterThan(1);
+        assertThat(system.getMyStockCount("stockCode1")).isGreaterThan(1);
     }
 
 //    @Test
