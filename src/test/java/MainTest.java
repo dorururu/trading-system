@@ -1,6 +1,4 @@
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
@@ -11,11 +9,11 @@ class MainTest {
     AutoTradingSystem system;
 
     @Mock
-    StockBroker brocker;
+    StockBroker broker;
 
     @BeforeEach
     void setUp() {
-        system = new AutoTradingSystem(brocker);
+        system = new AutoTradingSystem(broker);
     }
 
     @Test
