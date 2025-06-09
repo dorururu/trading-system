@@ -21,6 +21,14 @@ class MainTest {
         assertThat(system).isNotNull();
     }
 
+    @Test
+    void selectStockBrokerNemo() {
+        system.selectBroker(new NemoStockBroker());
+        assertThat(system.getBroker()).isInstanceOf(NemoStockBroker.class);
+    }
+
+
+
 //    @Test
 //    void selectStockBrokerKiwer() {
 //        AutoTradingSystem system = new AutoTradingSystem();
@@ -30,14 +38,7 @@ class MainTest {
 //        assertThat(broker).isInstanceOf(KiwerStock.class);
 //    }
 //
-//    @Test
-//    void selectStockBrokerNemo() {
-//        AutoTradingSystem system = new AutoTradingSystem();
-//        StockBroker broker = new StockBroker(Nemo);
-//        system.selectBroker(broker);
-//
-//        assertThat(broker).isInstanceOf(NemoStock.class);
-//    }
+
 //
 //
 //    @Test

@@ -21,4 +21,24 @@ public class NemoStockBroker implements StockBroker{
         return isLogin? "success" : "fail";
     }
 
+    @Override
+    public void buy(String stockCode, int price, int amount){
+        api.purchasingStock(stockCode,price,amount);
+    }
+
+    @Override
+    public void sell(String stockCode, int price, int amount){
+        api.sellingStock(stockCode,price,amount);
+    }
+
+    @Override
+    public void getPrice(String stockCode) {
+        try {
+            api.getMarketPrice(stockCode,1);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

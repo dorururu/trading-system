@@ -12,6 +12,10 @@ public class AutoTradingSystem {
         this.broker = broker;
     }
 
+    public StockBroker getBroker() {
+        return broker;
+    }
+
     public void login(String id, String password){
         broker.login(id, password);
     }
