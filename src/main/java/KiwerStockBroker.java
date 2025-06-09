@@ -17,4 +17,14 @@ public class KiwerStockBroker implements StockBroker {
     public String getLoginInfo() {
         return isLogin? "success" : "fail";
     }
+
+    @Override
+    public void buy(String stockCode, int price, int count) {
+
+    }
+
+    @Override
+    public void sell(String stockCode, int price, int count) {
+
+    }
 }

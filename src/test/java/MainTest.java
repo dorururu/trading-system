@@ -29,6 +29,7 @@ class MainTest {
 
 
 
+
 //    @Test
 //    void selectStockBrokerKiwer() {
 //        AutoTradingSystem system = new AutoTradingSystem();
@@ -97,16 +98,15 @@ class MainTest {
 //        assertThat(system.getMyStockPrice("stockCode1")).isLessThen(1500);
 //    }
 //
-//    @Test
-//    void sellByNemoStock() {
-//        AutoTradingSystem system = new AutoTradingSystem();
-//        StockBroker broker = new StockBroker(Nemo);
-//        system.selectBroker(broker);
-//        system.login();
-//
-//        system.sell("stockCode1", 4, 200);
-//
-//        assertThat(system.getMyStockPrice("stockCode1")).isLessThan(800);
-//    }
+    @Test
+    void sellByNemoStock() {
+        StockBroker broker = new NemoStockBroker();
+        AutoTradingSystem system = new AutoTradingSystem(broker);
+        system.login("ID", "PASSWORD");
+
+        system.sell("stockCode1", 4, 200);
+
+        assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(0);
+    }
 
 }

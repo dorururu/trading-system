@@ -33,6 +33,11 @@ public class AutoTradingSystem {
         myStocks.put(stockCode, myStocks.getOrDefault(stockCode, 0) + price * count);
     }
 
+    public void sell(String stockCode, int price, int count) {
+        broker.sell(stockCode, price, count);
+        myStocks.remove(stockCode);
+    }
+
     public int getMyStockPrice(String stockCode) {
         return myStocks.getOrDefault(stockCode, 0);
     }

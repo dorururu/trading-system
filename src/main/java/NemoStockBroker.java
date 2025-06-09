@@ -26,4 +26,10 @@ public class NemoStockBroker implements StockBroker{
         if(!isLogin) throw new IllegalStateException("You must login first.");
         api.purchasingStock(stockCode, price, count);
     }
+
+    @Override
+    public void sell(String stockCode, int price, int count) {
+        if(!isLogin) throw new IllegalStateException("You must login first.");
+        api.sellingStock(stockCode, price, count);
+    }
 }
