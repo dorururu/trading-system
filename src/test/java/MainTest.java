@@ -42,16 +42,16 @@ class MainTest {
 //    }
 //
 //
-//    @Test
-//    void loginKiwerStock() {
-//        AutoTradingSystem system = new AutoTradingSystem();
-//        StockBroker broker = new StockBroker(Kiwer);
-//        system.selectBroker(broker);
-//
-//        system.login();
-//
-//        assertThat(system.getLoginInfo()).contains("success");
-//    }
+    @Test
+    void loginKiwerStock() {
+        StockBroker broker = new KiwerStockBroker();
+        AutoTradingSystem system = new AutoTradingSystem(broker);
+
+
+        system.login("ID", "PASSWORD");
+
+        assertThat(system.getLoginInfo()).contains("success");
+    }
 
     @Test
     void loginNemoStock() {
