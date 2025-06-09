@@ -131,7 +131,7 @@ class MainTest {
 
         system.sellNiceTiming("stockCode1", 30);
 
-        assertThat(system.getMyStockCount("stockCode1")).islessThan(30);
+        assertThat(system.getMyStockCount("stockCode1")).isLessThan(30);
     }
 
 }
