@@ -1,8 +1,10 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
 
 class MainTest {
@@ -108,4 +110,21 @@ class MainTest {
 //        assertThat(system.getMyStockPrice("stockCode1")).isLessThan(800);
 //    }
 
+    @Test
+    void getPriceByNemoStock() {
+        StockBroker broker = mock(NemoStockBroker.class);
+
+        broker.getPrice("NemoStock");
+
+        verify(broker, times(1)).getPrice(anyString());
+    }
+
+    @Test
+    void getPriceByKiwerStock() {
+        StockBroker broker = mock(KiwerStockBroker.class);
+
+        broker.getPrice("KiwerStock");
+
+        verify(broker, times(1)).getPrice(anyString());
+    }
 }

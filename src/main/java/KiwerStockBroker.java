@@ -17,4 +17,9 @@ public class KiwerStockBroker implements StockBroker {
     public String getLoginInfo() {
         return isLogin? "success" : "fail";
     }
+
+    @Override
+    public int getPrice(String stockCode) {
+        return api.currentPrice(stockCode);
+    }
 }
