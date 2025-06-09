@@ -30,12 +30,23 @@ public class AutoTradingSystem {
 
     public void buy(String stockCode, int price, int count) {
         broker.buy(stockCode, price, count);
-        myStocks.put(stockCode, myStocks.getOrDefault(stockCode, 0) + price * count);
+        myStocks.put(stockCode, myStocks.getOrDefault(stockCode, 0) + count);
     }
 
     public void sell(String stockCode, int price, int count) {
+        if(!myStocks.containsKey(stockCode)){
+            System.out.println("해당 종목을 보유하고 있지 않습니다");
+            return;
+        }
+
+        int currentAmount = myStocks.get(stockCode);
+        if(count > currentAmount){
+            System.out.println("보유 수량 보다 더 많이 팔 수 없습니다");
+            return;
+        }
+
         broker.sell(stockCode, price, count);
-        myStocks.remove(stockCode);
+        myStocks.put(stockCode, currentAmount - count);
     }
 
     public int getMyStockPrice(String stockCode) {
