@@ -41,17 +41,16 @@ class MainTest {
 //
 
 //
-//
-//    @Test
-//    void loginKiwerStock() {
-//        AutoTradingSystem system = new AutoTradingSystem();
-//        StockBroker broker = new StockBroker(Kiwer);
-//        system.selectBroker(broker);
-//
-//        system.login();
-//
-//        assertThat(system.getLoginInfo()).contains("success");
-//    }
+
+    @Test
+    void loginKiwerStock() {
+        StockBroker broker = new KiwerStockBroker();
+        AutoTradingSystem system = new AutoTradingSystem(broker);
+
+        system.login("ID", "PASSWORD");
+
+        assertThat(system.getLoginInfo()).contains("success");
+    }
 
     @Test
     void loginNemoStock() {
@@ -63,18 +62,17 @@ class MainTest {
         assertThat(system.getLoginInfo()).contains("success");
     }
 
-//    @Test
-//    void buyByKiwerStock() {
-//        AutoTradingSystem system = new AutoTradingSystem();
-//        StockBroker broker = new StockBroker(Kiwer);
-//        system.selectBroker(broker);
-//        system.login();
-//
-//        system.buy("stockCode1", 3, 500);
-//
-//        assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(1500);
-//    }
-//
+    @Test
+    void buyByKiwerStock() {
+        StockBroker broker = new KiwerStockBroker();
+        AutoTradingSystem system = new AutoTradingSystem(broker);
+        system.login("ID", "PASSWORD");
+
+        system.buy("stockCode1", 3, 500);
+
+        assertThat(system.getMyStockPrice("stockCode1")).isEqualTo(1500);
+    }
+
     @Test
     void buyByNemoStock() {
         StockBroker broker = new NemoStockBroker();

@@ -39,6 +39,8 @@ public class AutoTradingSystem {
     }
 
     public int getMyStockPrice(String stockCode) {
-        return myStocks.getOrDefault(stockCode, 0);
+        if(myStocks.get(stockCode) == null) throw new NullPointerException("Stock not found: " + stockCode);
+
+        return myStocks.get(stockCode);
     }
 }
