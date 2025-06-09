@@ -180,4 +180,29 @@ class MainTest {
 
         verify(broker, times(1)).getPrice(anyString());
     }
+
+    @Test
+    void buyNiceTiming() {
+        StockBroker broker = new NemoStockBroker();
+        AutoTradingSystem system = new AutoTradingSystem(broker);
+        system.login("ID", "PASSWORD");
+        when(system.isRisingStock()).thenReturn(true);
+
+        system.buyNiceTiming("stockCode1", 30);
+
+        assertThat(system.getMyStockCount("stockCode1")).isGreaterThan(30);
+    }
+
+    @Test
+    void sellNiceTiming() {
+        StockBroker broker = new NemoStockBroker();
+        AutoTradingSystem system = new AutoTradingSystem(broker);
+        system.login("ID", "PASSWORD");
+        when(system.isFallingStock()).thenReturn(true);
+
+        system.sellNiceTiming("stockCode1", 30);
+
+        assertThat(system.getMyStockCount("stockCode1")).isLessThan(30);
+    }
+
 }
